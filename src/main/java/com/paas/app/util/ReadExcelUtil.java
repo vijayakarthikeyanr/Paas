@@ -26,7 +26,6 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.paas.app.config.CloudFoundryConfig;
 import com.paas.app.config.S3Properties;
 import com.paas.app.model.AppPlatform;
 import com.paas.app.model.Response;
@@ -46,9 +45,6 @@ public class ReadExcelUtil {
 	private static final String KEEP_ALIVE = "Keep-Alive";
 	private static final String TIME_OUT = "timeout=";
 	
-	@Autowired
-	CloudFoundryConfig cloudFoundryConfig;
-
 	public Response readExcel() {
 		ObjectMapper mapper = new ObjectMapper();
 		Response response = new Response();
@@ -100,7 +96,6 @@ public class ReadExcelUtil {
 		try {
 			response.setAppPlatformList(appPlatformList);
 			System.out.println(mapper.writeValueAsString(response));
-			cloudFoundryConfig.generatePassReportFromCloudFoundry();
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
