@@ -7,6 +7,7 @@ public class AppPlatform {
 	private String clNo;
 	private String environment;
 	private double microservices;
+	private String technologyServiceOwner;
 
 	public String getDomain() {
 		return domain;
@@ -54,6 +55,14 @@ public class AppPlatform {
 
 	public void setMicroservices(double microservices) {
 		this.microservices = microservices;
+	}
+
+	public String getTechnologyServiceOwner() {
+		return technologyServiceOwner;
+	}
+
+	public void setTechnologyServiceOwner(String technologyServiceOwner) {
+		this.technologyServiceOwner = technologyServiceOwner;
 	}
 
 }

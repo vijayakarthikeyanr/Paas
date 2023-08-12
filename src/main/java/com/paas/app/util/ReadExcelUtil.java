@@ -1,5 +1,7 @@
 package com.paas.app.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -37,20 +39,20 @@ public class ReadExcelUtil {
 
 	@Autowired
 	private S3Properties s3Properties;
-	
+
 	@Value("${sss.excel.file.name}")
 	public String excelFileName;
 
 	private static final String CONNECTION = "Connection";
 	private static final String KEEP_ALIVE = "Keep-Alive";
 	private static final String TIME_OUT = "timeout=";
-	
+
 	public Response readExcel() {
 		ObjectMapper mapper = new ObjectMapper();
 		Response response = new Response();
 		List<AppPlatform> appPlatformList = Lists.newArrayList();
 		// Get first/desired sheet from the workbook
-		XSSFSheet sheet = loadExcel().getSheetAt(0);
+		XSSFSheet sheet = loadExcelFromS3().getSheetAt(0);
 
 		// Iterate through each rows one by one
 		Iterator<Row> rowIterator = sheet.iterator();
@@ -103,7 +105,7 @@ public class ReadExcelUtil {
 		return response;
 	}
 
-	private XSSFWorkbook loadExcel() {
+	private XSSFWorkbook loadExcelFromS3() {
 		XSSFWorkbook workbook = null;
 		S3ObjectInputStream inputStream = null;
 		try {
@@ -186,15 +188,31 @@ public class ReadExcelUtil {
 			appPlatform.setApplicationInstance(cell.getStringCellValue());
 			break;
 		case 3:
-			appPlatform.setClNo(cell.getStringCellValue());
+			appPlatform.setTechnologyServiceOwner(cell.getStringCellValue());
 			break;
 		case 4:
-			appPlatform.setEnvironment(cell.getStringCellValue());
+			appPlatform.setClNo(cell.getStringCellValue());
 			break;
 		case 5:
+			appPlatform.setEnvironment(cell.getStringCellValue());
+			break;
+		case 6:
 			appPlatform.setMicroservices(cell.getNumericCellValue());
 			break;
 		}
+	}
+
+	private XSSFWorkbook loadExcelFromLocal() {
+		XSSFWorkbook workbook = null;
+		S3ObjectInputStream inputStream = null;
+		try {
+
+			FileInputStream file = new FileInputStream(
+					new File("C:\\Documents\\Hex\\Personal\\Udaya\\fwdms\\PaaS Platform Matrix_dev.xlsm"));
+			workbook = new XSSFWorkbook(file);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}return workbook;
 	}
 
 }

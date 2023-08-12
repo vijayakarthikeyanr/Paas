@@ -18,11 +18,13 @@ function loadDataIntoTable() {
   var table =
     "<table id='myTable'><tr class='header'><th>Domain</th><th>Org</th>";
   table +=
-    "<th>Application Instance</th><th>Cl No</th><th>Environment</th><th>Microservices</th></tr>";
+    "<th>Application Instance</th><th>Technology Service Owner</th><th>Cl No</th><th>Environment</th><th>Microservices</th></tr>";
   appPlatformList.forEach((appPlatform) => {
+	  var owner = appPlatform.technologyServiceOwner==null?"":appPlatform.technologyServiceOwner;
       table += "<tr><td>" + appPlatform.domain + "</td>";
       table += "<td>" + appPlatform.org + "</td>";
       table += "<td>" + appPlatform.applicationInstance + "</td>";
+      table += "<td>" + owner + "</td>";
       table += "<td>" + appPlatform.clNo + "</td>";
       table += "<td>" + appPlatform.environment + "</td>";
       table += "<td>" + appPlatform.microservices + "</td></tr>";
